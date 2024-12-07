@@ -1,11 +1,10 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { startAuthFlow } from "@chaitanya-shahare/oauth2/lib/es6";
 import { useEffect, useState } from "react";
 
 export const client = {
-  id: "wT8ia20IVDShhEOiju1lkbdJXgbbkikm",
-  secret: "bb2RsGWEd5w1SUcRAYEnSkuvAhLZZZvhtFmbjPF9ciOAzW6nkisqJVp9VjkFRdHV",
+  id: process.env.REACT_APP_CLIENT_ID,
+  secret: process.env.REACT_APP_CLIENT_SECRET,
   redirectUri: "http://localhost:3000/callback",
 };
 
@@ -13,7 +12,7 @@ function App() {
   const handleOnClick = () => {
     const authorizationURL = startAuthFlow(
       client,
-      "openid profile email",
+      "openid offline_access profile email",
       "state"
     );
     window.location.href = authorizationURL;
