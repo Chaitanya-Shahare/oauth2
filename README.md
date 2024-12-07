@@ -4,6 +4,8 @@
 
 This library provides a simple way to perform the OAuth 2.0 authorization flow in both server and browser environments.
 
+Design Document: https://notes.chaitanyashahare.com/no-scrubs-internship-assignment/
+
 ## Installation
 
 To install the library, clone the repository and install the dependencies:

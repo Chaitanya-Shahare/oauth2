@@ -6,13 +6,14 @@ export const client = {
   id: process.env.REACT_APP_CLIENT_ID,
   secret: process.env.REACT_APP_CLIENT_SECRET,
   redirectUri: "http://localhost:3000/callback",
+  baseUrl: "https://dev-rv8klg4o854slkf4.us.auth0.com",
 };
 
 function App() {
-  const handleOnClick = () => {
+  const handleLogin = () => {
     const authorizationURL = startAuthFlow(
       client,
-      "openid offline_access profile email",
+      "offline_access openid profile email",
       "state"
     );
     window.location.href = authorizationURL;
@@ -73,7 +74,7 @@ function App() {
         {isAuthenticated && user ? (
           <button onClick={handleLogout}>Logout</button>
         ) : (
-          <button onClick={handleOnClick}>Login</button>
+          <button onClick={handleLogin}>Login</button>
         )}
 
         {isAuthenticated && user && (
