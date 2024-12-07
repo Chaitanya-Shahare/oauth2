@@ -1,24 +1,88 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { startAuthFlow } from "@chaitanya-shahare/oauth2/lib/es6";
+import { useEffect, useState } from "react";
 
 export const client = {
   id: "wT8ia20IVDShhEOiju1lkbdJXgbbkikm",
   secret: "bb2RsGWEd5w1SUcRAYEnSkuvAhLZZZvhtFmbjPF9ciOAzW6nkisqJVp9VjkFRdHV",
   redirectUri: "http://localhost:3000/callback",
 };
+
 function App() {
   const handleOnClick = () => {
-    const authorizationURL = startAuthFlow(client, "profile email", "state");
+    const authorizationURL = startAuthFlow(
+      client,
+      "openid profile email",
+      "state"
+    );
     window.location.href = authorizationURL;
   };
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+
+  const handleLogout = () => {
+    const accessToken = localStorage.getItem("accessToken");
+    fetch("https://dev-rv8klg4o854slkf4.us.auth0.com/v2/logout?federated", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        localStorage.clear();
+
+        setIsAuthenticated(false);
+        setUser(null);
+      });
+  };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      console.log("accessToken", accessToken);
+      fetch("https://dev-rv8klg4o854slkf4.us.auth0.com/userinfo", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setUser(data);
+          setIsAuthenticated(true);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         {/* <p> */}
-        <button onClick={handleOnClick}>Login</button>
+        {isAuthenticated && user ? (
+          <button onClick={handleLogout}>Logout</button>
+        ) : (
+          <button onClick={handleOnClick}>Login</button>
+        )}
+
+        {isAuthenticated && user && (
+          <div>
+            <h1>Welcome {user.name}</h1>
+            <p>Email: {user.email}</p>
+          </div>
+        )}
         {/* </p> */}
       </header>
     </div>
