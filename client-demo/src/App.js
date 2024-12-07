@@ -30,7 +30,7 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => {
         console.error(error);
@@ -46,7 +46,7 @@ function App() {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      console.log("accessToken", accessToken);
+      // console.log("accessToken", accessToken);
       fetch("https://dev-rv8klg4o854slkf4.us.auth0.com/userinfo", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -54,7 +54,7 @@ function App() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setUser(data);
           setIsAuthenticated(true);
         })
