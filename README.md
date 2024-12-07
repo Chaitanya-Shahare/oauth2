@@ -1,18 +1,18 @@
-# OAuth Client Library
+# OAuth 2.0 Client
 
-## Introduction
+## Introduction
 
 This library provides a simple way to perform the OAuth 2.0 authorization flow in both server and browser environments.
 
-## Installation
+## Installation
 
 To install the library, clone the repository and install the dependencies:
 
 ```bash
 
-git clone <repository-url>
+git clone https://github.com/Chaitanya-Shahare/oauth2
 
-cd <repository-directory>
+cd oauth2
 
 npm install
 ```
